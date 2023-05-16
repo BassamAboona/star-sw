@@ -605,7 +605,7 @@ static int l4_doer(daqReader *rdr, const char  *do_print)
 			l4_gl3_t *h = (l4_gl3_t *) dd->Void ;
 			UINT32 *x = (UINT32 *)h->data;
 			printf("L4 GL3 sec %02d: bytes %d: %d %s [0x%08x 0x%08x 0x%08x 0x%08x]\n",dd->sec,dd->ncontent,h->bytes,h->name,x[0],x[1],x[2],x[3]) ;
-			printf("sizeof %d  offset %d\n", sizeof(l4_gl3_t), (char *)h->data - (char *)h); 
+			printf("sizeof %ld  offset %ld\n", sizeof(l4_gl3_t), (char *)h->data - (char *)h); 
 		}
 	}
 
@@ -780,7 +780,7 @@ static int tpx_doer(daqReader *rdr, const char  *do_print)
 			sec_cou[dd->sec-1] += dd->ncontent ;
 
 			if(do_print) {
-				printf("TPX: sec %02d, row %2d: %3d clusters (evt %d)\n",dd->sec,dd->row,dd->ncontent,good) ;
+				printf("CLD: sec %02d, row %2d: %3d clusters (evt %d)\n",dd->sec,dd->row,dd->ncontent,good) ;
 			}
 			
 			tot_pixels += dd->ncontent ;
@@ -2423,7 +2423,7 @@ static int itpc_doer(daqReader *rdr, const char *do_print)
 //				det_raw_bytes[dd->rdo-1] += dd->ncontent ;
 				
 				if(do_print) {
-					printf("ITPC RAW: sector %2d, RDO %d: %d rawbytes\n",dd->sec,dd->row,dd->ncontent) ;
+					printf("ITPC RAW: %d: sector %2d, RDO %d: %d rawbytes\n",rdr->seq,dd->sec,dd->row,dd->ncontent) ;
 
 					u_int *d32 = (u_int *)dd->Void ;
 
@@ -2447,7 +2447,7 @@ static int itpc_doer(daqReader *rdr, const char *do_print)
 			while(dd->iterate()) {
 				adc_found = 1 ;
 				
-
+				
 			
 				if(do_print) {
 					int rdo = (dd->row >> 4)+1;
@@ -2525,7 +2525,7 @@ static int itpc_doer(daqReader *rdr, const char *do_print)
 				sec[dd->sec] += dd->ncontent ;
 
 				if(do_print) {
-					printf("ITPC CLD: sector %2d, row %2d: %3d clusters\n",dd->sec,dd->row,dd->ncontent) ;
+					printf("ITPC CLD: %d: sector %2d, row %2d: %3d clusters\n",rdr->seq,dd->sec,dd->row,dd->ncontent) ;
 
 					for(u_int i=0;i<dd->ncontent;i++) {
 						printf("\t%f %d %d %f %d %d %d 0x%X\n", dd->cld[i].pad,dd->cld[i].p1,dd->cld[i].p2,

@@ -131,7 +131,8 @@ int itpcInterpreter::itpc_fee_map[24][4][16] = {
 	{ 9, 4,26,14,15,10,30,22,27, 5,31,23,18,16,11, 6}    
 },
 {//S17
-	{49,52,46, 0, 0, 54,0,47, 0,50, 0,55,48, 0,51,53}, 
+//	{49,52,46, 0, 0, 54,0,47, 0,50, 0,55,48, 0,51,53}, // 29Mar03: bad port 3 moved to good port 5
+	{49,52, 0, 0,46, 54,0,47, 0,50, 0,55,48, 0,51,53}, 
 	{36,32,40,43,37,33, 0,41, 0,44,38,34,42,45,39,35},  
 	{ 7, 1,17,12,24,19,13, 8,28, 2, 0,20,29,25,21, 3}, 
 	{ 9, 4,26,14,15,10,30,22,27, 5,31,23,18,16,11, 6}    
@@ -840,7 +841,7 @@ int itpcInterpreter::sampa_ch_scan()
 
 		int t_stop = t_start + t_cou - 1 ;
 
-//		LOG(TERR,"...%d %d %d",t_start,t_cou,t_stop) ;
+//		LOG(TERR,"DDD %d %d %d",t_start,t_cou,t_stop) ;
 
 		if(t_start <= t_stop_last) {
                         LOG(ERR,"%d: t_start %d, t_cou %d, t_stop %d, t_stop_last %d",rdo_id,t_start,t_cou,t_stop,t_stop_last) ;
@@ -2230,7 +2231,7 @@ int itpcInterpreter::rdo_scan_top(u_int *data, int words)
 
 	// the data is already SWAPPED if processed in the sector brokers!!!
 	for(int i=0;i<w_cou;i++) {
-		LOG(NOTE,"...%d/%d = 0x%08X",i,words,data[i]) ;
+//		LOG(TERR,"...%d/%d = 0x%08X",i,words,data[i]) ;
 
 		if((data[i] == 0xCCCC001C)||(data[i] == 0x001CCCCC)) {
 			data = data + i ;
@@ -2241,7 +2242,7 @@ int itpcInterpreter::rdo_scan_top(u_int *data, int words)
 	w_cou = data_end - data ;
 
 	if(data[0]==0xCCCC001C) {	// need swapping!!!!
-		LOG(NOTE,"swapping") ;
+//		LOG(TERR,"swapping: data 0x%08X, w_cou %d",data[0],w_cou) ;
 		for(int i=0;i<w_cou;i++) {
 			data[i] = sw16(data[i]) ;
 		}
@@ -2262,15 +2263,18 @@ int itpcInterpreter::rdo_scan_top(u_int *data, int words)
 	int no_fees = 0 ;
 	//ds is of the form 0x98000014
 
+
+
 	if((data[0]&0xFF00000F)==0x98000004) {
 		rdo_version = (data[0]>>4)&0xFF ;	// aka 1
 	}
 	else {
+		// I'll also be here if the data is from the new FY2023 iTPC Upgrade!
 		no_fees = 1 ;	// not a triggered event - no FEEs
 	}
 
-	if(dbg_level>1) LOG(TERR,"%d: ds 0x%08X, 0x%X %d, words %d,%d",rdo_id,data[0],rdo_version,no_fees,words,w_cou) ;
-
+//	if(dbg_level>1) LOG(TERR,"%d: ds 0x%08X, 0x%X %d, words %d,%d",rdo_id,data[0],rdo_version,no_fees,words,w_cou) ;
+//	LOG(TERR,"%d: ds 0x%08X, 0x%X %d, words %d,%d",rdo_id,data[0],rdo_version,no_fees,words,w_cou) ;
 
 	// I need the event status ala get_l2
 

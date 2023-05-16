@@ -17,12 +17,13 @@
 #include "StFstHit.h"
 #include "StRoot/StFstUtil/StFstCollection.h"
 #include "StRoot/StFstUtil/StFstRawHitCollection.h"
-#include "StRoot/StFstUtil/StFstRawHit.h"
+#include "StEvent/StFstRawHit.h"
 #include "StIOMaker/StIOMaker.h"
-#include "StEvent.h"
-#include "StTrack.h"
+#include "StEvent/StEvent.h"
+#include "StEvent/StTrack.h"
 
-#include "StEventTypes.h"
+//#include "StEvent/StEventTypes.h"
+#include "StEvent/StPrimaryVertex.h"
 #include "StMessMgr.h"
 #include "StDcaGeometry.h"
 #if ROOT_VERSION_CODE < 334081

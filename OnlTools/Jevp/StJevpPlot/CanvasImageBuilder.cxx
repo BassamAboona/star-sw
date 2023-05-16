@@ -139,7 +139,7 @@ void CanvasImageBuilder::writeIndexFiles(FILE *f, DisplayNode *node, int page, i
     }
 }
 
-int CanvasImageBuilder::writeIndexFromNode(FILE *f, DisplayNode *node, char *currdir, int page, int tabs) {
+int CanvasImageBuilder::writeIndexFromNode(FILE *f, DisplayNode *node, const char *currdir, int page, int tabs) {
     int npages = 0;
     if(node->leaf) {
 	fprintf(f,"%s : %d\n", currdir, page); 
@@ -337,6 +337,7 @@ int CanvasImageBuilder::sendToImageWriter(RunStatus *rs, int numberOfEvents, con
 	}
     }
 
+
     LOG("JEFF", "a");
     writeIndex();
     XX(1);
@@ -348,6 +349,7 @@ int CanvasImageBuilder::sendToImageWriter(RunStatus *rs, int numberOfEvents, con
     XX(1);
     writeIdx++;
     LOG("JEFF", "a");
+
     pthread_mutex_unlock(&imageWriter->mux);
     XX(999);
     return cnt;
